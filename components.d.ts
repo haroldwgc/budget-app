@@ -35,4 +35,7 @@ declare module '@vue/runtime-core' {
     SummaryComponent: typeof import('./src/components/SummaryComponent.vue')['default']
     TheNavBar: typeof import('./src/components/TheNavBar.vue')['default']
   }
+  export interface ComponentCustomProperties {
+    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
+  }
 }

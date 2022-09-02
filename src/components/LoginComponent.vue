@@ -7,7 +7,7 @@
             <p></p>
             <el-input v-model="password" type="password" placeholder="Please input" clearable />
             <p></p>
-            <el-button type="primary" @click="login">Primary</el-button>
+            <el-button type="primary" @click="login">Login</el-button>
         </div>
     </el-card>
 </template>

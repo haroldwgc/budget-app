@@ -1,12 +1,19 @@
 <template>
     <h3 style="font-weight: bold;font-size: 23px;">Presupuesto</h3>
-    <div style="float:right">
-        <span style="font-weight: bold;font-size: 23px;">Total Presupuestado: </span><span
-            style="font-weight: bold;font-size: 23px; color: green;"> {{ formatter.format(form.totalAmount) }}</span>
+    <div class="row">
+        <div class="col-sm-6">
+            <el-form-item label="Activar edición" align="right">
+                <el-switch v-model="form.edit" />
+            </el-form-item>
+        </div>
+        <div class="col-sm-6">
+            <div style="float:right">
+                <span style="font-weight: bold;font-size: 23px;">Total Presupuestado: </span><span
+                    style="font-weight: bold;font-size: 23px; color: green;"> {{ formatter.format(form.totalAmount)
+                    }}</span>
+            </div>
+        </div>
     </div>
-    <el-form-item label="Activar edición" align="right">
-        <el-switch v-model="form.edit" />
-    </el-form-item>
     <p></p>
     <el-input v-model="search" size="small" placeholder="Buscar item de presupuesto" />
     <p></p>

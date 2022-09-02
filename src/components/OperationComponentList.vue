@@ -71,6 +71,8 @@
   import OperationRequest from '../models/requests/OperationRequest';
   import { useBudgetStore, useCategoryStore, useEntryStore, useExpenseStore, useOperationStore, useSummaryStore, useUserStore } from '../store/store';
   import OperationEntity from '../models/entities/OperationEntity';
+  import router from '../routes';
+  import { ElLoading } from 'element-plus'
   let req = new OperationRequest();
   const operationStore = useOperationStore()
   const userStore = useUserStore();
@@ -85,6 +87,17 @@
       edit: false,
   })
   
+  const openFullScreen2 = () => {
+      const loading = ElLoading.service({
+          lock: true,
+          text: 'Loading',
+          background: 'rgba(0, 0, 0, 0.7)',
+      })
+      setTimeout(() => {
+          loading.close()
+      }, 1600)
+  }
+  
   const filterTableData = computed(() =>
   
       operationStore.operationList.filter(
@@ -92,8 +105,9 @@
               !search.value ||
               data.name.toLowerCase().includes(search.value.toLowerCase())
       )
-    )
+  )
   const handleSelect = async (index: number, row: OperationEntity) => {
+      openFullScreen2();
       operationStore.operationId = row._id
       operationStore.operationName = row.name
       console.log(index, row)
@@ -101,7 +115,8 @@
       expenseStore.expenseList = await Get("/api/expense/byIdOperation/" + operationStore.operationId)
       budgetStore.budgetList = await Get("/api/budgetByOperation/" + operationStore.operationId)
       categoryStore.categoryList = await Get("/api/category")
-      summaryStore.summaryList = await Get("/api/summary/"+ operationStore.operationId)
+      summaryStore.summaryList = await Get("/api/summary/" + operationStore.operationId)
+      router.push('/summary')
   }
   const handleDelete = async (index: number, row: OperationEntity) => {
       console.log(index, row)
@@ -109,7 +124,7 @@
       operationStore.componentKey + 1;
       operationStore.operationList = await Get("/api/operationByUser/" + userStore.userId)
       Alert("success", "eliminada la operación " + row.name + " satisfactoriamente")
-  } 
+  }
   
   watchEffect(async () => {
   

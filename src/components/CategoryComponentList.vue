@@ -3,6 +3,7 @@
     <el-form-item label="Activar edición" align="right">
         <el-switch v-model="form.edit" />
     </el-form-item>
+    
     <p></p>
     <el-input v-model="search" size="small" placeholder="Buscar categoria" />
     <div v-if="form.edit">
