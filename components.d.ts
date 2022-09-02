@@ -7,7 +7,10 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-
+    BudgetComponent: typeof import('./src/components/BudgetComponent.vue')['default']
+    BudgetComponentList: typeof import('./src/components/BudgetComponentList.vue')['default']
+    CategoryComponent: typeof import('./src/components/CategoryComponent.vue')['default']
+    CategoryComponentList: typeof import('./src/components/CategoryComponentList.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
@@ -20,8 +23,16 @@ declare module '@vue/runtime-core' {
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
-
+    EntryComponent: typeof import('./src/components/EntryComponent.vue')['default']
+    EntryComponentList: typeof import('./src/components/EntryComponentList.vue')['default']
+    ExpenseComponent: typeof import('./src/components/ExpenseComponent.vue')['default']
+    ExpenseComponentList: typeof import('./src/components/ExpenseComponentList.vue')['default']
+    LoginComponent: typeof import('./src/components/LoginComponent.vue')['default']
+    OperationComponent: typeof import('./src/components/OperationComponent.vue')['default']
+    OperationComponentList: typeof import('./src/components/OperationComponentList.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SummaryComponent: typeof import('./src/components/SummaryComponent.vue')['default']
+    TheNavBar: typeof import('./src/components/TheNavBar.vue')['default']
   }
 }
