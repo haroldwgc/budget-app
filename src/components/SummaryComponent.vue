@@ -39,7 +39,7 @@
                     <td>{{ item.type }}</td>
                     <td style="color: orange">{{ formatter.format(item.budgetAmount) }}</td>
                     <td :style="[item.budgetAmount < item.realAmount ? { color: 'red' } : { color: 'green' }]">{{
-                           item.realAmount
+                           formatter.format(item.realAmount)
                     }}</td>
                     <td
                         :style="[item.budgetAmount < item.realAmount ? { color: 'red', textDecoration: 'line-through' } : item.budgetAmount == item.realAmount ? { color: 'darkblue', textDecoration: 'line-through' } : { color: 'orange' }]">

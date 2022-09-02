@@ -23,7 +23,7 @@
                     </el-table-column>
                     <el-table-column label="Tipo" prop="type" />
                     <el-table-column label="Categoria" prop="name" />
-                    <el-table-column label="Monto presupuestado" prop="budgetAmount" />
+                    <el-table-column label="Monto presupuestado" prop="amount" />
                     <el-table-column align="right">
                         <template #default="scope">
                             <el-button size="small" @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
@@ -50,7 +50,7 @@
                     </el-table-column>
                     <el-table-column label="Tipo" prop="type" />
                     <el-table-column label="Categoria" prop="name" />
-                    <el-table-column label="Monto presupuestado" prop="budgetAmount" />
+                    <el-table-column label="Monto presupuestado" prop="amount" />
                 </el-table>
             </el-scrollbar>
         </div>
