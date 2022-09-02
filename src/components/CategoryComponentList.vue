@@ -111,11 +111,11 @@
   }
   const userStore = useUserStore();
   
-  watchEffect(async () => {
+  /*watchEffect(async () => {
   
       categoryStore.categoryList = await Get("/api/category")
   
-  });
+  });*/
   
   const createCategory = async () => {
       req.description = ""

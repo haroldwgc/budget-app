@@ -2,8 +2,8 @@
     <h3 style="font-weight: bold;font-size: 23px;">Gastos</h3>
     <p></p>
     <div style="float:right">
-        <span  style="font-weight: bold;font-size: 23px;">Total Ingresos: </span><span
-            style="font-weight: bold;font-size: 23px; color: orange;"> {{formatter.format(form.totalAmount)  }}</span>
+        <span style="font-weight: bold;font-size: 23px;">Total Gastos: </span><span
+            style="font-weight: bold;font-size: 23px; color: orange;"> {{ formatter.format(form.totalAmount) }}</span>
     </div>
     <el-form-item label="Activar edición" align="right">
         <el-switch v-model="form.edit" />
@@ -87,9 +87,8 @@
                     </div>
                     <p></p>
                     <div>
-                        <el-select v-model="category" style="width: 465px;" filterable placeholder="Categoria">
-                            <el-option v-for="item in options" :key="item._id" :label="item.name"
-                                :value="item.icon" />
+                        <el-select v-model="category" style="width: 465px;" filterable placeholder="Presupuesto">
+                            <el-option v-for="item in options" :key="item._id" :label="item.name" :value="item.name+'|'+item.icon" />
                         </el-select>
                     </div>
                     <p></p>
@@ -111,7 +110,7 @@
                 </div>
             </div>
         </div>
-       
+
     </div>
 </template>
   
@@ -119,14 +118,15 @@
 import axios from 'axios';
 import { computed, reactive, ref, watchEffect } from 'vue'
 import { Alert, Deleted, Formater, Get, host } from '../helpers/AxiosHelpers';
-import { useCategoryStore, useExpenseStore, useOperationStore, useUserStore } from '../store/store';
+import { useBudgetStore,  useExpenseStore, useOperationStore, useSummaryStore, useUserStore } from '../store/store';
 import ExpenseRequest from '../models/requests/ExpenseRequest';
 import ExpenseEntity from '../models/entities/ExpenseEntity';
 let req = new ExpenseRequest();
 var formatter = Formater()
 const expenseStore = useExpenseStore()
 const operationStore = useOperationStore()
-const categoryStore = useCategoryStore()
+const budgetStore = useBudgetStore()
+const summaryStore = useSummaryStore()
 const amountdate = ref('')
 const name = ref('')
 const category = ref('')
@@ -135,7 +135,7 @@ const budgetAmount = ref('')
 const size = ref('large')
 const form = reactive({
     edit: false,
-    totalAmount:0
+    totalAmount: 0
 })
 const waypays = [
     {
@@ -158,7 +158,7 @@ const waypays = [
 
 
 
-const options = categoryStore.categoryList
+const options = budgetStore.budgetList
 
 const search = ref('')
 
@@ -181,28 +181,26 @@ const handleDelete = async (index: number, row: ExpenseEntity) => {
     console.log("el id es: " + row._id)
     expenseStore.componentKey + 1;
     expenseStore.expenseList = await Get("/api/expense/byIdOperation/" + operationStore.operationId)
+    summaryStore.summaryList = await Get("/api/summary/"+ operationStore.operationId)
     Alert("success", "eliminado el gasto satisfactoriamente")
 }
 const userStore = useUserStore();
 
 watchEffect(async () => {
+    expenseStore.expenseList.map(x => {
+        form.totalAmount += x.amountInt;
 
-    expenseStore.expenseList = await Get("/api/expense/byIdOperation/" + operationStore.operationId)
-  
-    expenseStore.expenseList.map(x=>{
-        form.totalAmount+=x.amountInt ;
-
-})
-
+    })
 });
 
 const createExpense = async () => {
     req.idOperation = operationStore.operationId;
-    req.iconCategory = category.value;
+    req.iconCategory = category.value.split('|')[1];
     req.amount = Number(budgetAmount.value);
-    req.nameCategory = name.value;
+    req.nameCategory = category.value.split('|')[0];
     req.type = wayPay.value;
-    req.dateAmount=amountdate.value
+    req.name=name.value
+    req.dateAmount = amountdate.value
     console.log(req)
     const headers = {
         Authorization: userStore.tokenAuth,
@@ -220,6 +218,7 @@ const createExpense = async () => {
     });
     expenseStore.componentKey + 1;
     expenseStore.expenseList = await Get("/api/expense/byIdOperation/" + operationStore.operationId)
+    summaryStore.summaryList = await Get("/api/summary/"+ operationStore.operationId)
     Alert("success", "creado el nuevo gasto satisfactoriamente")
 }
 </script>

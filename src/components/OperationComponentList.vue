@@ -69,7 +69,7 @@
   import { computed, reactive, ref, watchEffect } from 'vue'
   import { Alert, Deleted, Get, host } from '../helpers/AxiosHelpers';
   import OperationRequest from '../models/requests/OperationRequest';
-  import { useBudgetStore, useEntryStore, useExpenseStore, useOperationStore, useUserStore } from '../store/store';
+  import { useBudgetStore, useCategoryStore, useEntryStore, useExpenseStore, useOperationStore, useSummaryStore, useUserStore } from '../store/store';
   import OperationEntity from '../models/entities/OperationEntity';
   let req = new OperationRequest();
   const operationStore = useOperationStore()
@@ -77,6 +77,8 @@
   const entryStore = useEntryStore()
   const expenseStore = useExpenseStore()
   const budgetStore = useBudgetStore()
+  const categoryStore = useCategoryStore()
+  const summaryStore = useSummaryStore()
   const name = ref('')
   const search = ref('')
   const form = reactive({
@@ -98,6 +100,8 @@
       entryStore.entryList = await Get("/api/entry/byIdOperation/" + operationStore.operationId)
       expenseStore.expenseList = await Get("/api/expense/byIdOperation/" + operationStore.operationId)
       budgetStore.budgetList = await Get("/api/budgetByOperation/" + operationStore.operationId)
+      categoryStore.categoryList = await Get("/api/category")
+      summaryStore.summaryList = await Get("/api/summary/"+ operationStore.operationId)
   }
   const handleDelete = async (index: number, row: OperationEntity) => {
       console.log(index, row)

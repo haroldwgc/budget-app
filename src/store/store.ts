@@ -4,6 +4,7 @@ import CategoryEntity from "../models/entities/CategoryEntity";
 import EntryEntity from "../models/entities/EntryEntity";
 import ExpenseEntity from "../models/entities/ExpenseEntity";
 import OperationEntity from "../models/entities/OperationEntity";
+import SummaryEntity from "../models/entities/SummaryEntity";
 import UserEntity from "../models/entities/UserEntity";
 import CategoryRequest from "../models/requests/CategoryRequest";
 
@@ -53,6 +54,14 @@ export const useEntryStore = defineStore('entry', {
     state: () => ({
         entryList: [] as EntryEntity[],
         entry: EntryEntity,
+        componentKey:0
+    })
+})
+
+export const useSummaryStore = defineStore('summary', {
+    state: () => ({
+        summaryList: [] as SummaryEntity[],
+        summary: SummaryEntity,
         componentKey:0
     })
 })

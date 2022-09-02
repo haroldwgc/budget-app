@@ -34,16 +34,16 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="item in budgetStore.budgetList">
+                <tr v-for="item in summaryStore.summaryList">
                     <td>{{ item.name }}</td>
                     <td>{{ item.type }}</td>
-                    <td style="color: orange">{{ formatter.format(item.budgetAmountInt) }}</td>
-                    <td :style="[item.exceeded ? { color: 'red' } : { color: 'green' }]">{{
-                            formatter.format(item.amount)
+                    <td style="color: orange">{{ formatter.format(item.budgetAmount) }}</td>
+                    <td :style="[item.budgetAmount < item.realAmount ? { color: 'red' } : { color: 'green' }]">{{
+                           item.realAmount
                     }}</td>
                     <td
-                        :style="[item.budgetAmountInt < item.amount ? { color: 'red', textDecoration: 'line-through' } : item.budgetAmountInt == item.amount ? { color: 'darkblue', textDecoration: 'line-through' } : { color: 'orange' }]">
-                        {{ formatter.format(item.budgetAmountInt - item.amount) }}</td>
+                        :style="[item.budgetAmount < item.realAmount ? { color: 'red', textDecoration: 'line-through' } : item.budgetAmount == item.realAmount ? { color: 'darkblue', textDecoration: 'line-through' } : { color: 'orange' }]">
+                        {{ formatter.format(item.budgetAmount - item.realAmount) }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Total</th>
@@ -68,19 +68,23 @@
 <script lang="ts" setup>
 import { watch, watchEffect } from "vue";
 import { Formater, Get } from "../helpers/AxiosHelpers";
-import { useBudgetStore, useEntryStore, useExpenseStore, useOperationStore, useUserStore } from "../store/store";
+import { useBudgetStore, useEntryStore, useExpenseStore, useOperationStore, useSummaryStore, useUserStore } from "../store/store";
+
 var formatter = Formater()
 const operationStore = useOperationStore()
 const userStore = useUserStore()
 const entryStore = useEntryStore()
 const expenseStore = useExpenseStore()
 const budgetStore = useBudgetStore()
+const summaryStore = useSummaryStore()
+
 let totalEntry = 0;
 let totalBudget = 0;
 let totalExpense = 0;
 let rest = 0
 watch(() => [operationStore.componentKey], async (first, second) => {
-    operationStore.operationList = await Get("/api/operationByUser/" + userStore.userId)
+    operationStore.operationList = await Get("/api/operationByUser/" + userStore.userId);
+    summaryStore.summaryList = await Get("/api/summary/"+ operationStore.operationId);
 })
 
 watchEffect(async () => {
@@ -91,11 +95,11 @@ watchEffect(async () => {
         totalExpense += x.amountInt
     })
     budgetStore.budgetList.map(x => {
-        totalBudget += x.budgetAmountInt
+        totalBudget += x.amountInt
     })
     rest = totalEntry - totalExpense
 })
-</script>
 
+</script>
 <style>
 </style>

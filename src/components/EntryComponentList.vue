@@ -157,7 +157,6 @@ const handleDelete = async (index: number, row: EntryEntity) => {
 const userStore = useUserStore();
 
 watchEffect(async () => {
-    entryStore.entryList = await Get("/api/entry/byIdOperation/" + operationStore.operationId)
     entryStore.entryList.map(x => {
         form.totalAmount += x.amountInt;
     })

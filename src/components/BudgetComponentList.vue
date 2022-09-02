@@ -1,7 +1,7 @@
 <template>
     <h3 style="font-weight: bold;font-size: 23px;">Presupuesto</h3>
     <div style="float:right">
-        <span style="font-weight: bold;font-size: 23px;">Total Ingresos: </span><span
+        <span style="font-weight: bold;font-size: 23px;">Total Presupuestado: </span><span
             style="font-weight: bold;font-size: 23px; color: green;"> {{ formatter.format(form.totalAmount) }}</span>
     </div>
     <el-form-item label="Activar edición" align="right">
@@ -139,7 +139,7 @@
       budgetStore.budgetList.filter(
           (data) =>
               !search.value ||
-              data.idCategory.toLowerCase().includes(search.value.toLowerCase())
+              data.name.toLowerCase().includes(search.value.toLowerCase())
       )
   
   )
@@ -156,13 +156,9 @@
   }
   const userStore = useUserStore();
   watchEffect(async () => {
-  
-      budgetStore.budgetList = await Get("/api/budgetByOperation/" + operationStore.operationId)
-      
       budgetStore.budgetList.map(x => {
-          form.totalAmount += x.budgetAmountInt;
+          form.totalAmount += x.amountInt;
       })
-  
   });
   
   const createCategory = async () => {
