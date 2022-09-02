@@ -46,7 +46,7 @@ export async function Get(uri: string) {
     return list
 }
 
-export function Deleted(valor: any, uri: string) {
+export async function Deleted(valor: any, uri: string) {
 
     const userStore = useUserStore();
     let urlOperation = host + uri + valor;

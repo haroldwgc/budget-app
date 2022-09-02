@@ -87,7 +87,7 @@
       edit: false,
   })
   
-  const openFullScreen2 = () => {
+  const openFullScreen2 = async () => {
       const loading = ElLoading.service({
           lock: true,
           text: 'Loading',

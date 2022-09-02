@@ -107,36 +107,11 @@ const operationStore = useOperationStore()
 const categoryStore = useCategoryStore()
 const amountdate = ref('')
 const name = ref('')
-const category = ref('')
-const wayPay = ref('')
 const budgetAmount = ref('')
-const size = ref('large')
 const form = reactive({
     edit: false,
     totalAmount: 0
 })
-const waypays = [
-    {
-        value: 'Fijo No Variable',
-        label: 'Fijo No Variable',
-    },
-    {
-        value: 'Fijo Variable',
-        label: 'Fijo Variable',
-    },
-    {
-        value: 'Ahorro',
-        label: 'Ahorro',
-    },
-    {
-        value: 'No Escenciales',
-        label: 'No Escenciales',
-    }
-]
-
-
-
-const options = categoryStore.categoryList
 
 const search = ref('')
 
